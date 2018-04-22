@@ -2,7 +2,8 @@
 #define COREPROJECT_H
 
 #include <QWidget>
-#include <QTime>
+
+class QTime;
 
 namespace Ui {
 class CoreProject;

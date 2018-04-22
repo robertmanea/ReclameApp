@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QEvent>
 #include <QPaintEvent>
+#include <QTime>
 
 static QString k_RED_HEXA_CODE = "#FF0000";
 static QString k_GREEN_HEXA_CODE = "#00FF00";
