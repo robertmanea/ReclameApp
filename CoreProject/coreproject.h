@@ -26,6 +26,8 @@ private:
     void drawLine(QPainter *painter, QPoint first, QPoint second);
     void drawScene(QPainter *painter);
 
+    void updateCircles();
+
 private:
     Ui::CoreProject                             *ui;
 

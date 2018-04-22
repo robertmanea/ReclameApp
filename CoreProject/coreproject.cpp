@@ -55,6 +55,7 @@ void CoreProject::paintEvent(QPaintEvent *event)
 
     if(m_fpsTimer->msecsTo(m_fpsTimer->currentTime()) >= 1000)
     {
+        updateCircles();
         m_fpsValue = m_fpsCounter;
         m_fpsCounter = 0;
         m_fpsTimer->restart();
@@ -102,6 +103,32 @@ void CoreProject::drawScene(QPainter *painter)
     {
         painter->setBrush(iter.second);
         drawCircle(painter, iter.first, 5);
+    }
+
+    for (auto iter : m_circles)
+    {
+        int max_connect = 2;
+        for (auto jter : m_circles)
+        {
+            if (max_connect <= 0)
+                break;
+            // avoid connecting the same point
+            if (iter.first == jter.first)
+                continue;
+
+            drawLine(painter, iter.first, jter.first);
+
+            max_connect--;
+        }
+    }
+}
+
+void CoreProject::updateCircles()
+{
+    for (auto& iter : m_circles)
+    {
+        iter.first.setX(rand() % geometry().width());
+        iter.first.setY(rand() % geometry().height());
     }
 }
 
