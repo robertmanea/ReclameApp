@@ -15,6 +15,9 @@ public:
     explicit CoreProject(QWidget *parent = 0);
     ~CoreProject();
 
+protected:
+    void paintEvent(QPaintEvent *event);
+
 private:
     Ui::CoreProject *ui;
 };
