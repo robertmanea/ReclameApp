@@ -2,6 +2,7 @@
 #define COREPROJECT_H
 
 #include <QWidget>
+#include <QTime>
 
 namespace Ui {
 class CoreProject;
@@ -19,7 +20,14 @@ protected:
     void paintEvent(QPaintEvent *event);
 
 private:
-    Ui::CoreProject *ui;
+    void drawFPS(QPainter *painter);
+
+private:
+    Ui::CoreProject     *ui;
+
+    quint16             m_fpsCounter;
+    quint16             m_fpsValue;
+    QTime               *m_fpsTimer = nullptr;
 };
 
 #endif // COREPROJECT_H
