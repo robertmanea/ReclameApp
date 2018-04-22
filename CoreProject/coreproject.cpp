@@ -6,6 +6,8 @@
 #include <QPaintEvent>
 #include <QTime>
 
+#include "time.h"
+
 static QString k_RED_HEXA_CODE = "#FF0000";
 static QString k_GREEN_HEXA_CODE = "#00FF00";
 static QString k_BLUE_HEXA_CODE = "#0000FF";
@@ -16,9 +18,19 @@ CoreProject::CoreProject(QWidget *parent)
     , m_fpsCounter(0)
     , m_fpsValue(0)
 {
+    srand(time(NULL));
+
     ui->setupUi(this);
 
-    ui->textEdit->setText("Hello everyone!\nCome and watch some content!");
+    int nodesNumber = rand() % 20 + 10;
+
+    while (--nodesNumber)
+    {
+        QPoint newCircleCenter;
+        newCircleCenter.setX(rand() % geometry().width());
+        newCircleCenter.setY(rand() % geometry().height());
+        m_circles.push_back(QPair<QPoint, Qt::GlobalColor>(newCircleCenter, static_cast<Qt::GlobalColor>(rand()%20)));
+    }
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -35,6 +47,9 @@ void CoreProject::paintEvent(QPaintEvent *event)
 
     //white background
     painter.fillRect(event->rect(), Qt::white);
+
+    // draw the scene
+    drawScene(&painter);
 
     drawFPS(&painter);
 
@@ -58,6 +73,36 @@ void CoreProject::drawFPS(QPainter *painter)
 
     painter->setPen(penFpsText);
     painter->drawText(QPoint(10, 10), QString("FPS: ") + QString::number(m_fpsValue));
+}
+
+void CoreProject::drawCircle(QPainter *painter, QPoint centerPoint, quint32 radius)
+{
+    QRect elipseRect(QPoint(centerPoint.x() - radius, centerPoint.y() - radius),
+                     QPoint(centerPoint.x() + radius, centerPoint.y() + radius));
+
+    painter->drawEllipse(elipseRect);
+}
+
+void CoreProject::drawLine(QPainter *painter, QPoint first, QPoint second)
+{
+    QLine qLine(first, second);
+    painter->drawLine(qLine);
+}
+
+void CoreProject::drawScene(QPainter *painter)
+{
+    if (painter == nullptr)
+        return;
+
+    QPen blackPen;
+    blackPen.setColor(QColor("#000000"));
+    painter->setPen(blackPen);
+
+    for (auto iter : m_circles)
+    {
+        painter->setBrush(iter.second);
+        drawCircle(painter, iter.first, 5);
+    }
 }
 
 CoreProject::~CoreProject()

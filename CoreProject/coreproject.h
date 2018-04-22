@@ -22,13 +22,18 @@ protected:
 
 private:
     void drawFPS(QPainter *painter);
+    void drawCircle(QPainter *painter, QPoint centerPoint, quint32 radius);
+    void drawLine(QPainter *painter, QPoint first, QPoint second);
+    void drawScene(QPainter *painter);
 
 private:
-    Ui::CoreProject     *ui;
+    Ui::CoreProject                             *ui;
 
-    quint16             m_fpsCounter;
-    quint16             m_fpsValue;
-    QTime               *m_fpsTimer = nullptr;
+    quint16                                     m_fpsCounter;
+    quint16                                     m_fpsValue;
+    QTime                                       *m_fpsTimer = nullptr;
+
+    QVector<QPair<QPoint, Qt::GlobalColor>>     m_circles;
 };
 
 #endif // COREPROJECT_H
