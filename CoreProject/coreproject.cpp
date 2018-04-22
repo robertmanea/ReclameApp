@@ -34,10 +34,15 @@ CoreProject::CoreProject(QWidget *parent)
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(20);
+    timer->start(10);
 
     m_fpsTimer = new QTime();
     m_fpsTimer->start();
+}
+
+CoreProject::~CoreProject()
+{
+    delete ui;
 }
 
 void CoreProject::paintEvent(QPaintEvent *event)
@@ -130,9 +135,4 @@ void CoreProject::updateCircles()
         iter.first.setX(rand() % geometry().width());
         iter.first.setY(rand() % geometry().height());
     }
-}
-
-CoreProject::~CoreProject()
-{
-    delete ui;
 }
